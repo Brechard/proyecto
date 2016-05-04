@@ -11,4 +11,7 @@ section    { float: right; width: 80%;}
 footer    { clear: both;}
 
 nav a     { display: block; text-align: left;}
+#flashsuccess { background-color: green; }
+#flasherror { background-color: red; }
+#flashinfo { background-color: yellow; }
 

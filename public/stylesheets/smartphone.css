@@ -3,6 +3,9 @@ body             { background: #333; }
 #page:after { content: "Smartphone Layout"; }
 
 .no-narrow       { display: none; }
+#flashsuccess { background-color: green; }
+#flasherror { background-color: red; }
+#flashinfo { background-color: yellow; }
 
 body             { font-size: xx-large; }
 footer, input    { font-size: large; }

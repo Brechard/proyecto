@@ -14,6 +14,9 @@ body                 { font: 16px Georgia, serif;
                         color: black;
                         background: #eee;
                       }
+#flashsuccess { background-color: green; }
+#flasherror { background-color: red; }
+#flashinfo { background-color: yellow; }
 
 a                    { color: #00B7FF; }
 
