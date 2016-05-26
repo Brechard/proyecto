@@ -63,21 +63,33 @@ exports.new = function(req, res, next) {
 };
 
 exports.create = function(req,res,next){
-	var quiz = models.Quiz.build({question: req.body.quiz.question,
-								  answer: 	req.body.quiz.answer});
+
+  var authorId = req.session.user && req.session.user.id || 0;
+
+
+	var quiz = models.Quiz.build({  question: req.body.quiz.question,
+								                  answer: 	req.body.quiz.answer,
+                                  AuthorId: authorId } );
+  
 	// Guardar en la base de datos la nueva pregunta
-	quiz.save({fields: ["question", "answer"]}).then(function(quiz){
+	quiz.save({fields: ["question", "answer", "AuthorId"]}).then(function(quiz){
+
 		req.flash('success','Quiz creado con éxito.');
 		res.redirect('/quizzes');
+
 	}).catch(Sequelize.ValidationError, function(error){
+
 		req.flash('error', 'Errores en el formulario:');
 		for (var i in error.errors) {
 			req.flash('error',error.errors[i].value);
 		};
 		res.render('quizzes/new', {quiz: quiz});
+
 	}).catch(function (error) { 
+
 		req.flash('error', 'Error al crear un Quiz: ' +error.message);
 		next(error); 
+
 	})
 };
 
