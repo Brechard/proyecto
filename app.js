@@ -26,8 +26,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(partials());
 app.use(flash());
 app.use(session({ secret: "Practica10",
-	resave: false,
-	saveUninitialized: true }));
+                 resave: false,
+                 saveUninitialized: true}));
+
+
+// Helper dinamico:
+app.use(function(req, res, next) {
+
+   // Hacer visible req.session en las vistas
+   res.locals.session = req.session;
+
+   next();
+});
+
+
 app.use('/', routes);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

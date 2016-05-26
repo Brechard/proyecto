@@ -20,6 +20,7 @@ body                 { font: 16px Georgia, serif;
 
 a                    { color: #00B7FF; }
 
+.right               {float: right;}
 
 section > div        { padding: 20px; }
 
