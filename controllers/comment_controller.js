@@ -68,4 +68,4 @@ exports.accept = function(req, res, next) {
        req.flash('error', 'Error al aceptar un Comentario: '+error.message);
        next(error);
     });
-  };
+};

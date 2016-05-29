@@ -23,9 +23,9 @@ exports.create = function(req, res, next) {
     userController.autenticar(login, password)
         .then(function(user) {
 
-	        // Crear req.session.user y guardar campos id y username
-	        // La sesión se define por la existencia de: req.session.user
-	        req.session.user = {id:user.id, username:user.username};
+            // Crear req.session.user y guardar campos id y username
+            // La sesión se define por la existencia de: req.session.user
+            req.session.user = {id:user.id, username:user.username, isAdmin:user.isAdmin};
 
 	        res.redirect(redir); // redirección a la raiz
 		})
