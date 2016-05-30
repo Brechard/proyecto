@@ -1,6 +1,11 @@
 var express = require('express');
 var router = express.Router();
 
+var multer = require('multer');
+var upload = multer({ dest: './uploads/' });
+
+var upload = multer({ dest: './uploads/' });
+
 var quizController = require('../controllers/quiz_controller');
 var commentController = require('../controllers/comment_controller');
 var userController = require('../controllers/user_controller');
@@ -43,25 +48,15 @@ router.get('/quizzes/:quizId(\\d+).:format?',       quizController.show);
 router.get('/quizzes/:quizId(\\d+)/check', 			quizController.check);
 router.get('/quizzes.:format?',            			quizController.index);
 router.get('/quizzes/new',                 			sessionController.loginRequired, quizController.new);
-router.post('/quizzes',                    			sessionController.loginRequired, quizController.create);
-router.get('/quizzes/:quizId(\\d+)/edit',  			sessionController.loginRequired, 
-										   			quizController.ownershipRequired, 
-										   			quizController.edit);
-router.put('/quizzes/:quizId(\\d+)',       			sessionController.loginRequired, 
-													quizController.ownershipRequired, 
-													quizController.update);
-router.delete('/quizzes/:quizId(\\d+)',    			sessionController.loginRequired, 
-													quizController.ownershipRequired, 
-													quizController.destroy);
+router.post('/quizzes',                    			sessionController.loginRequired, upload.single('image'), quizController.create);
+router.get('/quizzes/:quizId(\\d+)/edit',  			sessionController.loginRequired, quizController.ownershipRequired, quizController.edit);
+router.put('/quizzes/:quizId(\\d+)',       			sessionController.loginRequired, upload.single('image'), quizController.ownershipRequired, quizController.update);
+router.delete('/quizzes/:quizId(\\d+)',    			sessionController.loginRequired, quizController.ownershipRequired, quizController.destroy);
 
 // Definición de rutas de comentarios
-router.get('/quizzes/:quizId(\\d+)/comments/new',  sessionController.loginRequired, 
-	                                               commentController.new);
-router.post('/quizzes/:quizId(\\d+)/comments',     sessionController.loginRequired, 
-	                                               commentController.create);
+router.get('/quizzes/:quizId(\\d+)/comments/new',  sessionController.loginRequired, commentController.new);
+router.post('/quizzes/:quizId(\\d+)/comments',     sessionController.loginRequired, commentController.create);
 router.put('/quizzes/:quizId(\\d+)/comments/:commentId(\\d+)/accept', 
-	                                               sessionController.loginRequired, 
-												   quizController.ownershipRequired, 
-	                                               commentController.accept);
+	                                               sessionController.loginRequired, quizController.ownershipRequired, commentController.accept);
 
 module.exports = router;
