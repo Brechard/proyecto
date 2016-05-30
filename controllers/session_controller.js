@@ -22,13 +22,21 @@ exports.create = function(req, res, next) {
 
     userController.autenticar(login, password)
         .then(function(user) {
+            if (user) {
+                // Crear req.session.user y guardar campos id y username
+                // La sesión se define por la existencia de: req.session.user
+                req.session.user = {id:user.id, 
+                                    username:user.username, 
+                                    isAdmin: user.isAdmin, 
+                                    expires: Date.now() + 120000
+                                   };
 
-            // Crear req.session.user y guardar campos id y username
-            // La sesión se define por la existencia de: req.session.user
-            req.session.user = {id:user.id, username:user.username, isAdmin:user.isAdmin};
-
-	        res.redirect(redir); // redirección a la raiz
-		})
+                res.redirect(redir); // redirección a redir
+            } else {
+                req.flash('error', 'La autenticación ha fallado. Reinténtelo otra vez.');
+                res.redirect("/session?redir="+redir);
+            }
+        })
 		.catch(function(error) {
             req.flash('error', 'Se ha producido un error: ' + error);
             res.redirect("/session");        
