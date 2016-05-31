@@ -38,7 +38,6 @@ var User = sequelize.import(path.join(__dirname,'user'));
 
 // Importar la definición de la tabla Attachments de attachment.js
 var Attachment = sequelize.import(path.join(__dirname,'attachment'));
-
 // Relaciones entre modelos
 
 // Relación 1a N entre Quiz y Comment

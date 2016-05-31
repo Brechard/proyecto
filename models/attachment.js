@@ -1,3 +1,5 @@
+// Definicion del modelo Attachment:
+
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('Attachment',
     { public_id: {

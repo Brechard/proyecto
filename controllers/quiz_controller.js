@@ -2,16 +2,15 @@ var models = require('../models');
 var Sequelize = require('sequelize');
 var cloudinary = require('cloudinary');
 var fs = require('fs');
+
 var userController = require('./user_controller');
 
 
 // Opciones para imagenes subidas a Cloudinary
-var cloudinary_image_options = { crop: 'limit', width: 200, heigth: 200, radius: 5,
-                                  border: "3px_solid_blue", tags: ['core', 'quiz-2016'] };
-
+var cloudinary_image_options = { crop: 'limit', width: 200, height: 200, radius: 5, 
+                                 border: "3px_solid_blue", tags: ['core', 'quiz-2016'] };
 exports.load = function(req, res, next, quizId) {
-  models.Quiz.findById(quizId, { include: [ models.Comment, models.Attachment ] })
-    .then(function(quiz) {
+  models.Quiz.findById(quizId, { include: [ models.Comment, models.Attachment ] })    .then(function(quiz) {
       		if (quiz) {
         		req.quiz = quiz;
         		next();
@@ -54,8 +53,8 @@ exports.index = function(req, res, next) {
           next(error);
         });
   	} else {
-  		models.Quiz.findAll({ include: [ models.Attachment ] }).then(function(quizzes){
-  			res.render('quizzes/index.ejs', {quizzes: quizzes});
+        models.Quiz.findAll({ include: [ models.Attachment ] }).then(function(quizzes){
+        res.render('quizzes/index.ejs', {quizzes: quizzes});
   		}).catch(function(error){ next(error)});		
   	}
   }
@@ -194,7 +193,7 @@ exports.destroy = function(req, res, next) {
   
   // Borrar la imagen de Cloudinary (Ignoro resultado)
   if (req.quiz.Attachment) {
-    cloudinary.api.delete_resources(req.quiz.Attachment.public_id);
+      cloudinary.api.delete_resources(req.quiz.Attachment.public_id);
   }
 
   req.quiz.destroy()
