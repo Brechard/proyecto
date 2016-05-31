@@ -2,6 +2,8 @@ var models = require('../models');
 var Sequelize = require('sequelize');
 var cloudinary = require('cloudinary');
 var fs = require('fs');
+var userController = require('./user_controller');
+
 
 // Opciones para imagenes subidas a Cloudinary
 var cloudinary_image_options = { crop: 'limit', width: 200, heigth: 200, radius: 5,
@@ -62,11 +64,22 @@ exports.index = function(req, res, next) {
 // GET /question
 exports.show = function(req, res, next) {
   var tipo = req.params.format;
+
+
   if (tipo == "json") {
     res.send("<html><head></head><body>"+JSON.stringify(req.quiz)+"</body></html>");
   } else {
-    var answer = req.query.answer || "";
-    res.render('quizzes/show', {quiz: req.quiz, answer: answer});    
+    models.User.findById(req.quiz.AuthorId)
+        .then(function(user) { 
+          var autor;
+          if(user)
+            autor = user.username;
+          else autor = "Usuario no encontrado";
+          console.log("Lo encontrado es: " +autor);
+          var answer = req.query.answer || "";
+          console.log("El primer usuario mandado es: " +req.users[1].username);
+          res.render('quizzes/show', {quiz: req.quiz, answer: answer, autor: autor, users: req.users});    
+        });
   }
 };
 

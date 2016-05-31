@@ -20,14 +20,19 @@
 
 <% } %>
 
+<p> El autor de esta pregunta es: <%= autor %> </p>
+
 <p><strong>Comentarios:</strong></p>
 
 <ul>
   <% for (var i in quiz.Comments) { 
        var comment = quiz.Comments[i];
+       var autor;
+       if(users[comment.AuthorId - 1])
+        autor = users[comment.AuthorId - 1].username;
+       else autor = "Usuario eliminado";
        if (comment.accepted) { %>
-
-           <li> <%= comment.text %> </li>
+          <li> <%= comment.text %> - Comentario de <%= autor %></li>
 
        <% } else if (session.user && 
                      (session.user.isAdmin || (quiz.AuthorId === session.user.id))) { %>

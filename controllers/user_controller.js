@@ -54,6 +54,14 @@ exports.index = function(req, res, next) {
         .catch(function(error) { next(error); });
 };
 
+exports.indexReturn = function(req, res, next) {
+    models.User.findAll({order: ['username']})
+        .then(function(users) {
+            req.users = users ;
+            next();
+        })
+        .catch(function(error) { next(error); });
+};
 
 // GET /users/:id
 exports.show = function(req, res, next) {
