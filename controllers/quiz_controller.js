@@ -93,8 +93,7 @@ exports.create = function(req,res,next){
                                   AuthorId: authorId } );
   
 	// Guarda en la tabla Quizzes el nuevo quiz.
-    models.Quiz.create(quiz)
-    .then(function(quiz) {
+  quiz.save({fields: ["question", "answer", "AuthorId"]}).then(function(quiz){
         req.flash('success', 'Pregunta y Respuesta guardadas con éxito.');
 
         if (!req.file) { 
